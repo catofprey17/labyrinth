@@ -21,9 +21,9 @@ class GameAdapter(context: Context) : Level.LevelListener {
     private lateinit var level: Level
     lateinit var levelName: TextView
     lateinit var currentPointView: PointView
-    private val sharedPreferences: SharedPreferences = context.getSharedPreferences("main", Context.MODE_PRIVATE)
+    private val sharedPreferences: SharedPreferences =
+        context.getSharedPreferences("main", Context.MODE_PRIVATE)
     var currentLevel: Int = sharedPreferences.getInt("level", 1)
-
 
 
     fun launchGame() {
@@ -79,7 +79,7 @@ class GameAdapter(context: Context) : Level.LevelListener {
             oldPosY,
             newPosY,
             direction.float,
-            object: AnimatorListenerAdapter() {
+            object : AnimatorListenerAdapter() {
                 override fun onAnimationEnd(animation: Animator?) {
                     super.onAnimationEnd(animation)
                     if (level.currentPoint.isPoint(level.endPoint))
@@ -92,6 +92,6 @@ class GameAdapter(context: Context) : Level.LevelListener {
         )
     }
 
-//    private fun generateLevelSize(): Int = 30
+    //    private fun generateLevelSize(): Int = 30
     private fun generateLevelSize(): Int = currentLevel.div(LEVEL_STEP) + 5
 }

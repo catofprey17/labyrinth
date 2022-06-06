@@ -8,14 +8,13 @@ import kotlin.math.abs
 import kotlin.random.Random
 
 
-class Level
-    (
+class Level(
     private val listener: LevelListener,
     size: Int,
     var startPosX: Int = -1,
     var startPosY: Int = -1,
     initDirection: PointCell.Direction = PointCell.Direction.UP
-    ) {
+) {
 
 
     var surfaceArray: Array<Array<FieldCell>>
@@ -35,12 +34,14 @@ class Level
 
 
         val len = size * 2 + 1
-        surfaceArray = Array(len) {Array(len) {
-            FieldCell(
-                0,
-                0
-            )
-        } }
+        surfaceArray = Array(len) {
+            Array(len) {
+                FieldCell(
+                    0,
+                    0
+                )
+            }
+        }
 
         for (i in 0 until len) {
             for (j in 0 until len) {
@@ -70,7 +71,8 @@ class Level
             } else {
                 stack.push(neighbor)
                 neighbor.isChecked = true
-                surfaceArray[abs((point.posX + neighbor.posX) / 2)][abs((point.posY + neighbor.posY) / 2)].isWall = false
+                surfaceArray[abs((point.posX + neighbor.posX) / 2)][abs((point.posY + neighbor.posY) / 2)].isWall =
+                    false
                 point = neighbor
             }
         }
@@ -82,13 +84,14 @@ class Level
 
         val whitePoints = arrayListOf<FieldCell>()
 
-        for(i in 1..array.size - 2 step 2) {
+        for (i in 1..array.size - 2 step 2) {
             for (j in 1..array[i].size - 2 step 2) {
                 val cell = array[i][j]
                 if (!cell.isWall &&
-                        cell != startPoint &&
-                        abs(cell.posX - startPoint.posX) > 3 &&
-                        abs(cell.posY - startPoint.posY) > 3) {
+                    cell != startPoint &&
+                    abs(cell.posX - startPoint.posX) > 3 &&
+                    abs(cell.posY - startPoint.posY) > 3
+                ) {
                     whitePoints.add(cell)
                 }
             }
@@ -103,8 +106,8 @@ class Level
         val availableNeighbors = ArrayList<FieldCell>()
 
         // check neighbor above
-        if (point.posY != 1 && !array[point.posX][point.posY-2].isChecked) {
-            availableNeighbors.add(array[point.posX][point.posY-2])
+        if (point.posY != 1 && !array[point.posX][point.posY - 2].isChecked) {
+            availableNeighbors.add(array[point.posX][point.posY - 2])
         }
 
         //check right neighbor
@@ -113,8 +116,8 @@ class Level
         }
 
         //check neighbor below
-        if (point.posY != array.size - 2 && !array[point.posX][point.posY+2].isChecked) {
-            availableNeighbors.add(array[point.posX][point.posY+2])
+        if (point.posY != array.size - 2 && !array[point.posX][point.posY + 2].isChecked) {
+            availableNeighbors.add(array[point.posX][point.posY + 2])
         }
 
         //check left neighbor
@@ -125,9 +128,8 @@ class Level
         return if (availableNeighbors.size == 0)
             null
         else
-            availableNeighbors[random.nextInt(0,availableNeighbors.size)]
+            availableNeighbors[random.nextInt(0, availableNeighbors.size)]
     }
-
 
 
     // TODO Optimize
@@ -142,7 +144,7 @@ class Level
         do {
             needToMove = false
 
-            when(direction) {
+            when (direction) {
                 PointCell.Direction.UP -> {
                     if (!surfaceArray[currentPoint.posX][currentPoint.posY - 1].isWall) {
                         currentPoint.setNewPos(surfaceArray[currentPoint.posX][currentPoint.posY - 1])
@@ -183,27 +185,33 @@ class Level
     }
 
     interface LevelListener {
-//        fun moveCurrentPoint(cell: PointCell)
+        //        fun moveCurrentPoint(cell: PointCell)
         fun stopMoving()
-        fun movePoint(oldPosX: Int, newPosX: Int, oldPosY: Int, newPosY: Int, direction: PointCell.Direction)
+        fun movePoint(
+            oldPosX: Int,
+            newPosX: Int,
+            oldPosY: Int,
+            newPosY: Int,
+            direction: PointCell.Direction
+        )
     }
 
     //TODO Optimize
     private fun checkAvailableMove(direction: PointCell.Direction): Boolean {
-            if (!surfaceArray[currentPoint.posX][currentPoint.posY - 1].isWall && direction != PointCell.Direction.DOWN && direction != PointCell.Direction.UP) {
-                return false
-            }
-            if (!surfaceArray[currentPoint.posX][currentPoint.posY + 1].isWall && direction != PointCell.Direction.DOWN && direction != PointCell.Direction.UP) {
-                return false
-            }
-            if (!surfaceArray[currentPoint.posX + 1][currentPoint.posY].isWall && direction != PointCell.Direction.LEFT && direction != PointCell.Direction.RIGHT) {
-                return false
-            }
-            if (!surfaceArray[currentPoint.posX - 1][currentPoint.posY].isWall && direction != PointCell.Direction.LEFT && direction != PointCell.Direction.RIGHT) {
-                return false
-            }
+        if (!surfaceArray[currentPoint.posX][currentPoint.posY - 1].isWall && direction != PointCell.Direction.DOWN && direction != PointCell.Direction.UP) {
+            return false
+        }
+        if (!surfaceArray[currentPoint.posX][currentPoint.posY + 1].isWall && direction != PointCell.Direction.DOWN && direction != PointCell.Direction.UP) {
+            return false
+        }
+        if (!surfaceArray[currentPoint.posX + 1][currentPoint.posY].isWall && direction != PointCell.Direction.LEFT && direction != PointCell.Direction.RIGHT) {
+            return false
+        }
+        if (!surfaceArray[currentPoint.posX - 1][currentPoint.posY].isWall && direction != PointCell.Direction.LEFT && direction != PointCell.Direction.RIGHT) {
+            return false
+        }
 
-            return true
+        return true
     }
 
     private fun movePoint(cell: PointCell) {

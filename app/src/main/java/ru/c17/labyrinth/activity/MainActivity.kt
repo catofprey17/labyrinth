@@ -1,15 +1,19 @@
-package ru.c17.labyrinth
+package ru.c17.labyrinth.activity
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
+import ru.c17.labyrinth.R
 
-//TODO Add saveInstanceState to GameLayout
+
 
 class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
+
+        val splashScreen = installSplashScreen()
+
         super.onCreate(savedInstanceState)
-        setTheme(R.style.AppTheme)
         setContentView(R.layout.activity_main)
 
     }

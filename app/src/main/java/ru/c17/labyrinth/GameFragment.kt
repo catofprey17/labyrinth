@@ -5,10 +5,13 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import kotlinx.android.synthetic.main.fragment_game.*
+import ru.c17.labyrinth.databinding.FragmentGameBinding
 import ru.c17.labyrinth.engine.GameAdapter
+import ru.c17.labyrinth.fragment.viewBinding
 
 class GameFragment : Fragment() {
+
+    private val binding by viewBinding(FragmentGameBinding::bind)
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -19,7 +22,7 @@ class GameFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        gameLayout.setAdapter(GameAdapter(requireContext()))
-        gameLayout.runGame()
+        binding.gameLayout.setAdapter(GameAdapter(requireContext()))
+        binding.gameLayout.runGame()
     }
 }

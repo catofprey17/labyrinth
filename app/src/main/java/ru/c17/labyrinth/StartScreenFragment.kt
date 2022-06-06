@@ -6,9 +6,13 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
-import kotlinx.android.synthetic.main.fragment_start_screen.*
+import ru.c17.labyrinth.databinding.FragmentStartScreenBinding
+import ru.c17.labyrinth.fragment.viewBinding
 
 class StartScreenFragment : Fragment() {
+
+    private val binding by viewBinding(FragmentStartScreenBinding::bind)
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -19,10 +23,8 @@ class StartScreenFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        layoutPyramid.setOnPlayerPointRunnable(
-            Runnable {
-                findNavController().navigate(R.id.gameFragment)
-            }
-        )
+        binding.layoutPyramid.setOnPlayerPointRunnable {
+            findNavController().navigate(R.id.gameFragment)
+        }
     }
 }
